@@ -1,0 +1,19 @@
+{
+  "name": "nodebackend",
+  "version": "1.0.0",
+  "description": "A basic app to deploy and learn",
+  "keywords": [
+    "node"
+  ],
+  "license": "ISC",
+  "author": "sameer maurya",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0"
+  }
+}
