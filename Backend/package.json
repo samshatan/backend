@@ -1,0 +1,24 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Learning",
+  "keywords": [
+    "javascript",
+    "backend"
+  ],
+  "homepage": "https://github.com/samshatan/backend#readme",
+  "bugs": {
+    "url": "https://github.com/samshatan/backend/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samshatan/backend.git"
+  },
+  "license": "ISC",
+  "author": "sameer",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
