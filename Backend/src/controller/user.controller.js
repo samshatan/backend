@@ -3,16 +3,18 @@ import ApiError from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import ApiResponse from "../utils/ApiResponse.js";
+
+
 const generateAccesAndRefreshTokens = async(UserId) => {
   try{
     const user = await User.findById(UserId)
-    const accesToken = user.generateAcessToken()
+    const accessToken = user.generateAcessToken()
     const refreshToken = user.generateRefreshToken()
 
     user.refreshToken = refreshToken;
     await user.save({validateBeforeSave: false})
 
-    return {accesToken, refreshToken}
+    return {accessToken, refreshToken}
 
   } catch(error){
     throw new ApiError(500, "Somethign Went while generating refresh and acces token")
@@ -108,8 +110,9 @@ const loginUser = asyncHandler(async (req,res) => {
   // request body se data 
 
   const {username, email, password} = req.body;
+  console.log(email);
 
-  if(!username || !email){
+  if(!username && !email){
     throw new ApiError(400, "Username and password is required")
   }
   // username or email 
@@ -133,11 +136,11 @@ const loginUser = asyncHandler(async (req,res) => {
 
   // access and refresh token generation
 
-  await generateAccesAndRefreshTokens(user._id);
+  const {accessToken, refreshToken} = await generateAccesAndRefreshTokens(userfind._id);
 
   // send cookie
 
-  const loggedInUser = await User.findById(user._id).
+  const loggedInUser = await User.findById(userfind._id).
   select("-password -refreshToken");
   
   const options = {
@@ -147,13 +150,13 @@ const loginUser = asyncHandler(async (req,res) => {
 
   return res
   .status(200)
-  .cookie("accessToken", accesToken, options)
+  .cookie("accessToken", accessToken, options)
   .cookie("refreshToken", refreshToken, options)
   .json(
     new ApiResponse(
       200,
       {
-        user: loggedInUser, accesToken, refreshToken
+        user: loggedInUser, accessToken, refreshToken
       },
       "User Logged In Succesfully"
     )
