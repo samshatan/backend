@@ -10,6 +10,7 @@ import mongoose from "mongoose";
 const generateAccesAndRefreshTokens = async(UserId) => {
   try{
     const user = await User.findById(UserId)
+    console.log(user);
     const accessToken = user.generateAcessToken()
     const refreshToken = user.generateRefreshToken()
 
@@ -199,11 +200,13 @@ const refreshAccessToken = asyncHandler(async(req,res) => {
   if (!incomingRefreshToken) {
     throw new ApiError(401, "Unauthorised Request");
   }
+  console.log(incomingRefreshToken);
 
   try {
     const decodedToken = jwt.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_SECRET)
   
     const user = await User.findById(decodedToken?._id)
+    console.log("user finded"+user)
   
     if(!user){
       throw new ApiError(401, "Invalid Refresh Token");
